@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>AI Chat</h2>
+
+<input id="msg" style="width:300px">
+<button onclick="send()">Send</button>
+
+<pre id="out"></pre>
+
+<script>
+
+async function send(){
+
+let msg=document.getElementById("msg").value
+
+let r=await fetch("/v1/chat/completions",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json",
+"Authorization":"Bearer sk-ai-123456"
+},
+
+body:JSON.stringify({
+model:"llama3",
+messages:[
+{role:"user",content:msg}
+]
+})
+
+})
+
+let d=await r.json()
+
+document.getElementById("out").innerText=d.choices[0].message.content
+
+}
+
+</script>
+
+</body>
+</html>
